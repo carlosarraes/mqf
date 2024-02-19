@@ -7,6 +7,7 @@ export type JournalEntry = {
   dev: string;
   dev_id: number;
   project: string;
+  emoji: string;
   project_id: number;
 };
 
@@ -18,6 +19,7 @@ export const JournalSchema = z.object({
   dev: z.string(),
   dev_id: z.number(),
   project: z.string(),
+  emoji: z.string(),
   project_id: z.number(),
 });
 
