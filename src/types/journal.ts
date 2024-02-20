@@ -25,3 +25,22 @@ export const JournalSchema = z.object({
 
 export type Journal = z.infer<typeof JournalSchema>;
 export type JournalStore = z.infer<typeof JournalSchema>[];
+
+export const formSchema = z.object({
+  title: z.string(),
+  comment: z.string(),
+  day: z.date(),
+  project_id: z
+    .string()
+    .optional()
+    .transform((v) => (v ? Number(v) : undefined)),
+});
+
+export type formType = z.infer<typeof formSchema>;
+
+export const downloadSchema = z.object({
+  startDate: z.date(),
+  endDate: z.date(),
+});
+
+export type downloadType = z.infer<typeof downloadSchema>;
