@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export type JournalEntry = {
   id: number;
-  title: string;
+  status: string;
   comment: string;
   dev: string;
   dev_id: number;
@@ -13,7 +13,7 @@ export type JournalEntry = {
 
 export const JournalSchema = z.object({
   id: z.number(),
-  title: z.string(),
+  status: z.string(),
   comment: z.string(),
   day: z.string(),
   dev: z.string(),
@@ -27,7 +27,8 @@ export type Journal = z.infer<typeof JournalSchema>;
 export type JournalStore = z.infer<typeof JournalSchema>[];
 
 export const formSchema = z.object({
-  title: z.string(),
+  dev_id: z.number(),
+  status: z.string(),
   comment: z.string(),
   day: z.date(),
   project_id: z

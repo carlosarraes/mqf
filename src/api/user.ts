@@ -1,25 +1,25 @@
 import { proxy } from "valtio";
 import axios from "axios";
-import { User, userFormType } from "@/types/user";
+import { Dev, devFormType } from "@/types/user";
 import { API_URL } from "@/utils/url";
 
-export const storeUsers = proxy<{
-  users: User[];
+export const storeDevs = proxy<{
+  devs: Dev[];
 }>({
-  users: [],
+  devs: [],
 });
 
 export const fetchUsers = async () => {
   try {
     const response = await axios.get(`${API_URL}/dev`);
 
-    storeUsers.users = response.data;
+    storeDevs.devs = response.data;
   } catch (error) {
     console.error(error);
   }
 };
 
-export const createUser = async (form: userFormType) => {
+export const createUser = async (form: devFormType) => {
   try {
     await axios.post(`${API_URL}/dev`, {
       dev_name: form.name,

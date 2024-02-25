@@ -1,12 +1,12 @@
 import { z } from "zod";
 
-export type User = {
+export type Dev = {
   id: number;
   name: string;
 };
 
-export const userFormSchema = z.object({
+export const devFormSchema = z.object({
   name: z.string(),
 });
 
-export type userFormType = z.infer<typeof userFormSchema>;
+export type devFormType = z.infer<typeof devFormSchema>;
