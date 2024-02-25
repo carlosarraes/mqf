@@ -31,7 +31,7 @@ export const ProjectForm = () => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex gap-2 mb-8 mx-auto"
+        className="flex gap-2 mx-auto"
       >
         <FormField
           control={form.control}

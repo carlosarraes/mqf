@@ -26,14 +26,18 @@ import {
   SelectValue,
 } from "./ui/select";
 import { createEntry } from "@/api/journal";
+import { storeDevs } from "@/api/user";
+import { formatName } from "@/utils/formatter";
 
 export const EntryForm = () => {
   const { projects } = useSnapshot(storeProjects);
+  const { devs } = useSnapshot(storeDevs);
 
   const form = useForm<formType>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: "",
+      dev_id: undefined,
+      status: "",
       comment: "",
       day: new Date(),
       project_id: undefined,
@@ -46,37 +50,36 @@ export const EntryForm = () => {
     form.reset();
   }
 
-  useEffect(() => void fetchProjects(), [projects]);
-
-  const formatName = (name: string) =>
-    name.charAt(0).toUpperCase() + name.slice(1);
+  useEffect(() => void fetchProjects(), []);
 
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex gap-2 mb-8 mx-auto"
+        className="flex gap-2 mx-auto"
       >
         <FormField
           control={form.control}
-          name="title"
+          name="dev_id"
           render={({ field }) => (
             <FormItem>
-              <FormControl>
-                <Input placeholder="Título" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="comment"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <Input placeholder="Comentário" {...field} />
-              </FormControl>
+              <Select
+                onValueChange={field.onChange}
+                defaultValue={field.value ? String(field.value) : ""}
+              >
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Desenvolvedor" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {devs.map((dev) => (
+                    <SelectItem key={dev.id} value={String(dev.id)}>
+                      {formatName(dev.name)}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
               <FormMessage />
             </FormItem>
           )}
@@ -103,6 +106,42 @@ export const EntryForm = () => {
                   ))}
                 </SelectContent>
               </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="status"
+          render={({ field }) => (
+            <FormItem>
+              <Select
+                onValueChange={field.onChange}
+                defaultValue={field.value ? String(field.value) : ""}
+              >
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Status" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="Pendente">Pendente</SelectItem>
+                  <SelectItem value="Completo">Completo</SelectItem>
+                  <SelectItem value="Congelado">Congelado</SelectItem>
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="comment"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input placeholder="Comentário" {...field} />
+              </FormControl>
               <FormMessage />
             </FormItem>
           )}
@@ -147,7 +186,11 @@ export const EntryForm = () => {
             </FormItem>
           )}
         />
-        <Button variant="outline" type="submit">
+        <Button
+          variant="outline"
+          type="submit"
+          disabled={form.formState.isSubmitting || !form.formState.isValid}
+        >
           Enviar
         </Button>
       </form>
