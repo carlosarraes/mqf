@@ -26,7 +26,7 @@ import {
   SelectValue,
 } from "./ui/select";
 import { createEntry } from "@/api/journal";
-import { storeDevs } from "@/api/user";
+import { fetchDevs, storeDevs } from "@/api/dev";
 import { formatName } from "@/utils/formatter";
 
 export const EntryForm = () => {
@@ -45,12 +45,16 @@ export const EntryForm = () => {
   });
 
   async function onSubmit(values: formType) {
-    await createEntry(values);
+    console.log(values);
+    // await createEntry(values);
 
     form.reset();
   }
 
-  useEffect(() => void fetchProjects(), []);
+  useEffect(() => {
+    void fetchProjects();
+    void fetchDevs();
+  }, []);
 
   return (
     <Form {...form}>
@@ -64,7 +68,7 @@ export const EntryForm = () => {
           render={({ field }) => (
             <FormItem>
               <Select
-                onValueChange={field.onChange}
+                onValueChange={(value) => field.onChange(Number(value))}
                 defaultValue={field.value ? String(field.value) : ""}
               >
                 <FormControl>
@@ -90,7 +94,7 @@ export const EntryForm = () => {
           render={({ field }) => (
             <FormItem>
               <Select
-                onValueChange={field.onChange}
+                onValueChange={(value) => field.onChange(Number(value))}
                 defaultValue={field.value ? String(field.value) : ""}
               >
                 <FormControl>
@@ -186,11 +190,7 @@ export const EntryForm = () => {
             </FormItem>
           )}
         />
-        <Button
-          variant="outline"
-          type="submit"
-          disabled={form.formState.isSubmitting || !form.formState.isValid}
-        >
+        <Button variant="outline" type="submit">
           Enviar
         </Button>
       </form>

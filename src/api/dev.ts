@@ -9,7 +9,7 @@ export const storeDevs = proxy<{
   devs: [],
 });
 
-export const fetchUsers = async () => {
+export const fetchDevs = async () => {
   try {
     const response = await axios.get(`${API_URL}/dev`);
 
@@ -20,12 +20,13 @@ export const fetchUsers = async () => {
 };
 
 export const createUser = async (form: devFormType) => {
+  console.log(form);
   try {
     await axios.post(`${API_URL}/dev`, {
-      dev_name: form.name,
+      name: form.name,
     });
 
-    await fetchUsers();
+    await fetchDevs();
   } catch (error) {
     console.error(error);
   }

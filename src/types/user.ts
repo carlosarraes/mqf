@@ -6,6 +6,7 @@ export type Dev = {
 };
 
 export const devFormSchema = z.object({
+  id: z.number().optional(),
   name: z.string(),
 });
 

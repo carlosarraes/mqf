@@ -1,4 +1,4 @@
-import { createUser, fetchUsers, storeDevs } from "@/api/user";
+import { createUser, fetchDevs, storeDevs } from "@/api/dev";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -63,7 +63,7 @@ export const UserForm = () => {
     formFilter.reset();
   };
 
-  useEffect(() => void fetchUsers(), []);
+  useEffect(() => void fetchDevs(), []);
 
   return (
     <section className="flex justify-between gap-4">

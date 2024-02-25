@@ -31,10 +31,7 @@ export const formSchema = z.object({
   status: z.string(),
   comment: z.string(),
   day: z.date(),
-  project_id: z
-    .string()
-    .optional()
-    .transform((v) => (v ? Number(v) : undefined)),
+  project_id: z.number().transform((v) => (v ? Number(v) : undefined)),
 });
 
 export type formType = z.infer<typeof formSchema>;
