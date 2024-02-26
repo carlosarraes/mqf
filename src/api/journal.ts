@@ -85,7 +85,7 @@ export const fetchJournalsByDate = async (
 export const createEntry = async (journal: formType) => {
   try {
     await axios.post(`${API_URL}/journal`, {
-      dev_id: 1,
+      dev_id: journal.dev_id,
       status: journal.status,
       comment: journal.comment,
       day: journal.day.toISOString().split("T")[0],

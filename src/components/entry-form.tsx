@@ -45,8 +45,7 @@ export const EntryForm = () => {
   });
 
   async function onSubmit(values: formType) {
-    console.log(values);
-    // await createEntry(values);
+    await createEntry(values);
 
     form.reset();
   }
@@ -190,7 +189,11 @@ export const EntryForm = () => {
             </FormItem>
           )}
         />
-        <Button variant="outline" type="submit">
+        <Button
+          variant="outline"
+          type="submit"
+          disabled={!form.formState.isValid}
+        >
           Enviar
         </Button>
       </form>
