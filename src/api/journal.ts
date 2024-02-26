@@ -98,6 +98,32 @@ export const createEntry = async (journal: formType) => {
   }
 };
 
+export const updateEntry = async (journal: formType) => {
+  try {
+    await axios.put(`${API_URL}/journal/${journal.id}`, {
+      dev_id: journal.dev_id,
+      status: journal.status,
+      comment: journal.comment,
+      day: journal.day.toISOString().split("T")[0],
+      project_id: journal.project_id,
+    });
+
+    await fetchJournalsByDate();
+  } catch (error) {
+    console.error("Error updating journal:", error);
+  }
+};
+
+export const deleteEntry = async (id: number) => {
+  try {
+    await axios.delete(`${API_URL}/journal/${id}`);
+
+    await fetchJournalsByDate();
+  } catch (error) {
+    console.error("Error deleting journal:", error);
+  }
+};
+
 export const getJournalYaml = async (
   startDate: string = storeJournal.weekStart,
   endDate: string = storeJournal.weekEnd,

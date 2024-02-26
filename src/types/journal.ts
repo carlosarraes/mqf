@@ -27,6 +27,7 @@ export type Journal = z.infer<typeof JournalSchema>;
 export type JournalStore = z.infer<typeof JournalSchema>[];
 
 export const formSchema = z.object({
+  id: z.number().optional(),
   dev_id: z.number(),
   status: z.string().min(1),
   comment: z.string(),
